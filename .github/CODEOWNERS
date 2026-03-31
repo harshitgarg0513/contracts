@@ -1,0 +1,14 @@
+# Contract repository ownership
+# Domain ownership is split by proto domain so reviews are explicit per area.
+
+# Proto domains
+/proto/beatroute/auth/** @harshitgarg0513
+/proto/beatroute/common/** @harshitgarg0513
+/proto/beatroute/dms/** @harshitgarg0513
+
+# Governance and generation infrastructure
+/scripts/** @harshitgarg0513
+/.github/workflows/** @harshitgarg0513
+/package.json @harshitgarg0513
+/package-lock.json @harshitgarg0513
+/generated/** @harshitgarg0513
