@@ -4,9 +4,17 @@ const fs = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
 
-const repoRoot = path.resolve(__dirname, '../..');
-const protoRoot = path.join(repoRoot, 'contracts', 'proto');
-const generatedRoot = path.join(repoRoot, 'contracts', 'generated', 'typescript');
+const standaloneRoot = path.resolve(__dirname, '..');
+const boilerplateRoot = path.resolve(__dirname, '../..');
+const standaloneMode = fs.existsSync(path.join(standaloneRoot, 'proto'));
+
+const repoRoot = standaloneMode ? standaloneRoot : boilerplateRoot;
+const protoRoot = standaloneMode
+  ? path.join(repoRoot, 'proto')
+  : path.join(repoRoot, 'contracts', 'proto');
+const generatedRoot = standaloneMode
+  ? path.join(repoRoot, 'generated', 'typescript')
+  : path.join(repoRoot, 'contracts', 'generated', 'typescript');
 
 function walkProtoFiles(dir, result = []) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -40,7 +48,7 @@ function resolveTsProtoPluginPath() {
 
 function run() {
   if (!fs.existsSync(protoRoot)) {
-    console.error('contracts/proto directory not found.');
+    console.error(`Proto directory not found at ${protoRoot}.`);
     process.exit(1);
   }
 
@@ -57,7 +65,7 @@ function run() {
 
   const protoFiles = walkProtoFiles(protoRoot);
   if (protoFiles.length === 0) {
-    console.error('No proto files found under contracts/proto.');
+    console.error(`No proto files found under ${protoRoot}.`);
     process.exit(1);
   }
 
@@ -82,7 +90,7 @@ function run() {
     process.exit(generation.status || 1);
   }
 
-  console.info(`Generated ${protoFiles.length} proto files into contracts/generated/typescript.`);
+  console.info(`Generated ${protoFiles.length} proto files into ${generatedRoot}.`);
 }
 
 run();

@@ -5,7 +5,7 @@
   "description": "Shared gRPC contracts for microservices",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/harshitgarg0513/boilerplate-ms-main.git"
+    "url": "git+https://github.com/harshitgarg0513/contracts.git"
   },
   "main": "generated/typescript/index.js",
   "types": "generated/typescript/index.d.ts",

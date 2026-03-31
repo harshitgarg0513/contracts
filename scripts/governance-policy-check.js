@@ -4,9 +4,12 @@ const { execSync, spawnSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-const CONTRACT_ROOT = 'contracts/proto';
 const DEFAULT_BASES = ['origin/main', 'main', 'HEAD~1'];
-const REPO_ROOT = path.resolve(__dirname, '../..');
+const standaloneRoot = path.resolve(__dirname, '..');
+const boilerplateRoot = path.resolve(__dirname, '../..');
+const standaloneMode = fs.existsSync(path.join(standaloneRoot, 'proto'));
+const REPO_ROOT = standaloneMode ? standaloneRoot : boilerplateRoot;
+const CONTRACT_ROOT = standaloneMode ? 'proto' : 'contracts/proto';
 
 function run(command) {
   try {
