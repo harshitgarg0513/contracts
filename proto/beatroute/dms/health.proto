@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package beatroute.dms;
+
+service HealthService {
+  rpc CheckHealth(HealthCheckRequest) returns (HealthCheckResponse);
+}
+
+message HealthCheckRequest {}
+
+message HealthCheckResponse {
+  bool status = 1;
+}

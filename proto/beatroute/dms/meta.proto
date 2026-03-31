@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package beatroute.dms;
+
+message Meta {
+    int32 currentPage = 1;
+    int32 totalCount = 2;
+    int32 perPage = 3;
+    int32 pageCount = 4;
+  }

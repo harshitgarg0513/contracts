@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package beatroute.auth;
+
+service AuthService {
+  rpc Authenticate(AuthenticateRequestDto) returns (AuthenticateResponseDto) {}
+}
+
+message AuthenticateRequestDto {
+  string token = 1;
+}
+
+message AuthenticateResponseDto {
+  string jwtToken = 1;
+}

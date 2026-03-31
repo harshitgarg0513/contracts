@@ -3,6 +3,14 @@ version: v2
 lint:
   use:
     - STANDARD
+  ignore:
+    - beatroute/auth/auth.proto
+    - beatroute/dms/example.proto
+    - beatroute/dms/health.proto
+    - beatroute/dms/meta.proto
+  ignore_only:
+    RPC_REQUEST_RESPONSE_UNIQUE:
+      - beatroute/dms/v1/example.proto
 
 breaking:
   use:
