@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package beatroute.dms.v1;
+
+import "beatroute/common/response.proto";
+import "beatroute/common/empty.proto";
+
+service ExampleService {
+  rpc Create(ExampleRequestDto) returns (Example) {}
+  rpc Index (ExampleListRequestDto) returns (ExampleResponseListDto) {}
+  rpc View (ExampleViewRequestDto) returns (Example) {}
+  rpc Delete (ExampleDeleteRequestDto) returns (beatroute.common.Empty) {}
+}
+
+message ExampleRequestDto {
+  string name = 1;
+  string description = 2;
+}
+
+message Example {
+  string id = 1;
+  string name = 4;
+  string description = 8;
+}
+
+message ExampleViewRequestDto {
+  string id = 1;
+}
+
+message ExampleDeleteRequestDto {
+  string id = 1;
+}
+
+message ExampleListRequestDto {
+  optional int32 page = 1;
+}
+
+message ExampleResponseListDto {
+  repeated Example examples = 1;
+  beatroute.common.Pagination pagination = 2;
+}

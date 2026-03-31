@@ -1,0 +1,54 @@
+name: Contract Check
+
+on:
+  pull_request:
+    paths:
+      - 'proto/**/*.proto'
+      - 'proto/buf.yaml'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'scripts/**'
+
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup buf
+        uses: bufbuild/buf-setup-action@v1
+
+      - name: Install protoc
+        run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify generated contracts are up to date
+        run: |
+          node scripts/generate-proto.js
+          git diff --exit-code -- generated/typescript
+
+      - name: Compatibility check
+        run: |
+          echo "Running protobuf contract checks..."
+          node scripts/compatibility-check.js
+        env:
+          CONTRACT_BASE_REF: origin/${{ github.base_ref }}
+
+      - name: Governance policy check
+        run: |
+          echo "Running contract governance policy checks..."
+          node scripts/governance-policy-check.js
+        env:
+          CONTRACT_BASE_REF: origin/${{ github.base_ref }}
+          CONTRACT_ENFORCE_FREEZE: "true"
